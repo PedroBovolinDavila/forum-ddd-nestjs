@@ -8,7 +8,7 @@ import { DatabaseModule } from '@/infra/database/database.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { QuestionFactory } from 'test/factories/make-question'
 
-describe('Delete question (E2E)', () => {
+describe('Comment on question (E2E)', () => {
   let app: INestApplication
   let jwt: JwtService
   let prisma: PrismaService
@@ -31,7 +31,7 @@ describe('Delete question (E2E)', () => {
     await app.init()
   })
 
-  test('[DELETE] /questions/:id', async () => {
+  test.only('[POST] /questions/:questionId/comments', async () => {
     const user = await studentFactory.makePrismaStudent()
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
@@ -41,14 +41,23 @@ describe('Delete question (E2E)', () => {
       sub: user.id.toString(),
     })
 
+    const questionId = question.id.toString()
+
     const response = await request(app.getHttpServer())
-      .delete(`/questions/${question.id.toString()}`)
+      .post(`/questions/${questionId}/comments`)
       .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        content: 'Example question comment',
+      })
 
-    expect(response.statusCode).toBe(204)
+    expect(response.statusCode).toBe(201)
 
-    const isQuestionDeleted = await prisma.question.findMany()
+    const isCommentOnDatabase = await prisma.comment.findFirst({
+      where: {
+        content: 'Example question comment',
+      },
+    })
 
-    expect(isQuestionDeleted).toEqual([])
+    expect(isCommentOnDatabase).toBeTruthy()
   })
 })

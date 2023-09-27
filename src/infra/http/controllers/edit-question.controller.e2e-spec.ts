@@ -51,13 +51,13 @@ describe('Edit question (E2E)', () => {
 
     expect(response.statusCode).toBe(204)
 
-    const areQuestionUpdated = await prisma.question.findFirst({
+    const isQuestionUpdated = await prisma.question.findFirst({
       where: {
         title: 'New Title',
       },
     })
 
-    expect(areQuestionUpdated).toEqual(
+    expect(isQuestionUpdated).toEqual(
       expect.objectContaining({
         title: 'New Title',
         content: 'New Content',

@@ -4,9 +4,10 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { AnswersRepository } from '../repositories/answers-repository'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
+import { Injectable } from '@nestjs/common'
 
 interface AnswerQuestionUseCaseParams {
-  instructorId: string
+  authorId: string
   questionId: string
   content: string
   attachmentIds: string[]
@@ -19,11 +20,12 @@ type AnswerQuestionUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class AnswerQuestionUseCase {
   constructor(private answersRepository: AnswersRepository) {}
 
   async execute({
-    instructorId,
+    authorId,
     questionId,
     content,
     attachmentIds,
@@ -31,7 +33,7 @@ export class AnswerQuestionUseCase {
     const answer = Answer.create({
       content,
       questionId: new UniqueEntityID(questionId),
-      authorId: new UniqueEntityID(instructorId),
+      authorId: new UniqueEntityID(authorId),
     })
 
     await this.answersRepository.create(answer)
