@@ -44,5 +44,9 @@ public_key.pem
 # Database
 data
 
+# tmp
+tmp/*
+!tmp/.gitkeep
+
 ##
 _anotacoes

@@ -1,7 +1,6 @@
 export interface UploadParams {
   fileName: string
-  fileType: string
-  body: Buffer
+  filePath: string
 }
 
 export abstract class Uploader {

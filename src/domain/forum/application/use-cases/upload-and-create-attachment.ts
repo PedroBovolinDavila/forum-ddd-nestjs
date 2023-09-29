@@ -8,7 +8,7 @@ import { Uploader } from '../storage/uploader'
 interface UploadAndCreateAttachmentUseCaseParams {
   fileName: string
   fileType: string
-  body: Buffer
+  filePath: string
 }
 
 type UploadAndCreateAttachmentUseCaseReponse = Either<
@@ -26,7 +26,7 @@ export class UploadAndCreateAttachmentUseCase {
   async execute({
     fileName,
     fileType,
-    body,
+    filePath,
   }: UploadAndCreateAttachmentUseCaseParams): Promise<UploadAndCreateAttachmentUseCaseReponse> {
     const validateMimeTypeRegex = /application\/pdf|image\/png|image\/jpe?g/
 
@@ -36,8 +36,7 @@ export class UploadAndCreateAttachmentUseCase {
 
     const { url } = await this.uploader.upload({
       fileName,
-      fileType,
-      body,
+      filePath,
     })
 
     const attachment = Attachment.create({

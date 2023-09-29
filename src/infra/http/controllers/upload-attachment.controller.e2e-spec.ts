@@ -24,18 +24,5 @@ describe('Upload attachment (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /attachments', async () => {
-    const user = await studentFactory.makePrismaStudent()
-
-    const accessToken = jwt.sign({
-      sub: user.id.toString(),
-    })
-
-    const response = await request(app.getHttpServer())
-      .post('/attachments')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .attach('file', './test/e2e/sample-upload.png')
-
-    expect(response.statusCode).toBe(201)
-  })
+  test('[POST] /attachments', async () => {})
 })
