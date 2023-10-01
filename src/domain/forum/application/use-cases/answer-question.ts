@@ -10,7 +10,7 @@ interface AnswerQuestionUseCaseParams {
   authorId: string
   questionId: string
   content: string
-  attachmentIds: string[]
+  attachmentsIds: string[]
 }
 
 type AnswerQuestionUseCaseResponse = Either<
@@ -28,7 +28,7 @@ export class AnswerQuestionUseCase {
     authorId,
     questionId,
     content,
-    attachmentIds,
+    attachmentsIds,
   }: AnswerQuestionUseCaseParams): Promise<AnswerQuestionUseCaseResponse> {
     const answer = Answer.create({
       content,
@@ -36,9 +36,7 @@ export class AnswerQuestionUseCase {
       authorId: new UniqueEntityID(authorId),
     })
 
-    await this.answersRepository.create(answer)
-
-    const answerAttachments = attachmentIds.map((attachmentId) => {
+    const answerAttachments = attachmentsIds.map((attachmentId) => {
       return AnswerAttachment.create({
         answerId: answer.id,
         attachmentId: new UniqueEntityID(attachmentId),
@@ -46,6 +44,8 @@ export class AnswerQuestionUseCase {
     })
 
     answer.attachments = new AnswerAttachmentList(answerAttachments)
+
+    await this.answersRepository.create(answer)
 
     return right({
       answer,

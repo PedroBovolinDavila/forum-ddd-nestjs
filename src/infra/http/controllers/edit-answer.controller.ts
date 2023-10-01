@@ -17,6 +17,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 
 const editAnswerBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string().uuid()),
 })
 
 type EditAnswerBodySchema = z.infer<typeof editAnswerBodySchema>
@@ -33,14 +34,14 @@ export class EditAnswerController {
     @CurrentUser() user: UserPayload,
     @Param('id') answerId: string,
   ): Promise<void> {
-    const { content } = body
+    const { content, attachments } = body
     const { sub: userId } = user
 
     const result = await this.editAnswer.execute({
       answerId,
       authorId: userId,
       content,
-      attachmentIds: [],
+      attachmentIds: attachments,
     })
 
     if (result.isLeft()) {
