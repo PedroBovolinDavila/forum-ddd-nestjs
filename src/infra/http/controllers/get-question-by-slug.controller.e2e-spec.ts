@@ -29,7 +29,9 @@ describe('Get question by slug (E2E)', () => {
   })
 
   test('[GET] /questions/:slug', async () => {
-    const user = await studentFactory.makePrismaStudent()
+    const user = await studentFactory.makePrismaStudent({
+      name: 'John Doe',
+    })
 
     const accessToken = jwt.sign({
       sub: user.id.toString(),
@@ -47,7 +49,13 @@ describe('Get question by slug (E2E)', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
-      question: expect.objectContaining({ title: 'question 01' }),
+      question: expect.objectContaining({
+        title: 'question 01',
+        author: {
+          id: user.id.toString(),
+          name: 'John Doe',
+        },
+      }),
     })
   })
 })
