@@ -1,0 +1,6 @@
+- Documentacao
+- Melhorar alguns use cases
+- Refresh Token
+- Email para se cadastrar
+- Esqueci a senha
+- README.md
