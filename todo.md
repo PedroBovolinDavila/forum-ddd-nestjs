@@ -4,3 +4,4 @@
 - Email para se cadastrar
 - Esqueci a senha
 - README.md
+- CI/CD
