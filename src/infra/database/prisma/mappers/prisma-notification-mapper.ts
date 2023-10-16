@@ -8,7 +8,7 @@ export class PrismaNotificationMapper {
       {
         title: raw.title,
         content: raw.content,
-        recipientId: new UniqueEntityID(raw.recipient_id),
+        recipientId: new UniqueEntityID(raw.recipientId),
         createdAt: raw.createdAt,
         readAt: raw.readAt,
       },
@@ -24,7 +24,7 @@ export class PrismaNotificationMapper {
       title: notification.title,
       content: notification.content,
       createdAt: notification.createdAt,
-      recipient_id: notification.recipientId.toString(),
+      recipientId: notification.recipientId.toString(),
       readAt: notification.readAt,
     }
   }

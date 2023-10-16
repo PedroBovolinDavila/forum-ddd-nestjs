@@ -93,14 +93,14 @@ model Attachment {
 }
 
 model Notification {
-  id           String    @id @default(uuid())
-  title        String
-  content      String
-  readAt       DateTime? @map("read_at")
-  createdAt    DateTime  @default(now()) @map("created_at")
-  recipient_id String    @map("recipient_id")
+  id          String    @id @default(uuid())
+  title       String
+  content     String
+  readAt      DateTime? @map("read_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  recipientId String    @map("recipient_id")
 
-  recipient User @relation(fields: [recipient_id], references: [id])
+  recipient User @relation(fields: [recipientId], references: [id])
 
   @@map("notifications")
 }
